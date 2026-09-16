@@ -1,0 +1,9 @@
+{
+  "appId": "com.buxydigital.app",
+  "appName": "BUXY DIGITAL",
+  "webDir": "dist",
+  "server": {
+    "url": "https://buxydigital.com/app/",
+    "cleartext": false
+  }
+}
