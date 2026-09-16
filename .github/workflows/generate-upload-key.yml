@@ -1,0 +1,28 @@
+name: Generate BUXY Upload Key
+
+on:
+  workflow_dispatch:
+
+jobs:
+  generate-key:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Generate upload keystore
+        run: |
+          keytool -genkeypair \
+            -keystore buxy-upload-key.jks \
+            -alias buxyupload \
+            -keyalg RSA \
+            -keysize 2048 \
+            -validity 10000 \
+            -storepass "${{ secrets.BUXY_KEYSTORE_PASSWORD }}" \
+            -keypass "${{ secrets.BUXY_KEY_PASSWORD }}" \
+            -dname "CN=BUXY DIGITAL, O=BUXY DIGITAL, C=RO"
+
+      - name: Upload keystore
+        uses: actions/upload-artifact@v4
+        with:
+          name: buxy-upload-key
+          path: buxy-upload-key.jks
+          retention-days: 30
