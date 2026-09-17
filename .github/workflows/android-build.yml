@@ -33,7 +33,24 @@ jobs:
 
       - name: Create Android project
         run: npx cap add android
+      - name: Configure Android API 36 and version
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
 
+          variables = Path("android/variables.gradle")
+          text = variables.read_text()
+          text = re.sub(r"compileSdkVersion\s*=\s*\d+", "compileSdkVersion = 36", text)
+          text = re.sub(r"targetSdkVersion\s*=\s*\d+", "targetSdkVersion = 36", text)
+          variables.write_text(text)
+
+          app = Path("android/app/build.gradle")
+          text = app.read_text()
+          text = re.sub(r"versionCode\s+\d+", "versionCode 2", text, count=1)
+          text = re.sub(r'versionName\s+"[^"]+"', 'versionName "1.0.1"', text, count=1)
+          app.write_text(text)
+          PY
       - name: Restore upload keystore
         env:
           BUXY_KEYSTORE_BASE64: ${{ secrets.BUXY_KEYSTORE_BASE64 }}
