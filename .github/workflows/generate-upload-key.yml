@@ -1,28 +1,20 @@
-name: Generate BUXY Upload Key
+# This workflow is retained as a visible safety guard. The original workflow
+# generated a new private upload key and made it available as an artifact.
+# That is unsafe for an already enrolled app whose existing key is still valid.
+name: Upload Key Safety Notice (generation disabled)
 
 on:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
-  generate-key:
+  do-not-regenerate:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Generate upload keystore
+      - name: Explain why upload key generation is disabled
         run: |
-          keytool -genkeypair \
-            -keystore buxy-upload-key.jks \
-            -alias buxyupload \
-            -keyalg RSA \
-            -keysize 2048 \
-            -validity 10000 \
-            -storepass "${{ secrets.BUXY_KEYSTORE_PASSWORD }}" \
-            -keypass "${{ secrets.BUXY_KEY_PASSWORD }}" \
-            -dname "CN=BUXY DIGITAL, O=BUXY DIGITAL, C=RO"
-
-      - name: Upload keystore
-        uses: actions/upload-artifact@v4
-        with:
-          name: buxy-upload-key
-          path: buxy-upload-key.jks
-          retention-days: 30
+          echo "The existing BUXY DIGITAL upload key must be preserved."
+          echo "No new private key is generated or published by this workflow."
+          echo "See docs/ANDROID-RELEASE-CHECKLIST.md before requesting any key reset."
