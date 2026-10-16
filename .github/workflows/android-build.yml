@@ -6,9 +6,13 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
 
     steps:
       - name: Checkout
@@ -25,97 +29,53 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
+      - name: Test Android build preparation
+        run: python3 -m unittest discover -s tests -v
+
+      # A genuine package-lock.json must be generated and committed before
+      # switching to npm ci. Do not hand-author a dependency lockfile.
       - name: Install dependencies
-        run: npm install
+        run: npm install --no-audit --no-fund
 
       - name: Build web files
         run: npm run build
 
       - name: Create Android project
         run: npx cap add android
-      - name: Configure Android API 36 and version
-        run: |
-          python3 - <<'PY'
-          from pathlib import Path
-          import re
 
-          variables = Path("android/variables.gradle")
-          text = variables.read_text()
-          text = re.sub(r"compileSdkVersion\s*=\s*\d+", "compileSdkVersion = 36", text)
-          text = re.sub(r"targetSdkVersion\s*=\s*\d+", "targetSdkVersion = 36", text)
-          variables.write_text(text)
+      - name: Apply reviewed Android version and signing configuration
+        run: python3 scripts/prepare_android.py
 
-          app = Path("android/app/build.gradle")
-          text = app.read_text()
-          text = re.sub(r"versionCode\s+\d+", "versionCode 2", text, count=1)
-          text = re.sub(r'versionName\s+"[^"]+"', 'versionName "1.0.1"', text, count=1)
-          app.write_text(text)
-          PY
-      - name: Restore upload keystore
+      - name: Restore existing upload keystore
         env:
           BUXY_KEYSTORE_BASE64: ${{ secrets.BUXY_KEYSTORE_BASE64 }}
+        shell: bash
         run: |
-          echo "$BUXY_KEYSTORE_BASE64" | base64 --decode > android/app/buxy-upload-key.jks
-
-      - name: Configure release signing
-        env:
-          BUXY_KEYSTORE_PASSWORD: ${{ secrets.BUXY_KEYSTORE_PASSWORD }}
-          BUXY_KEY_ALIAS: ${{ secrets.BUXY_KEY_ALIAS }}
-          BUXY_KEY_PASSWORD: ${{ secrets.BUXY_KEY_PASSWORD }}
-        run: |
-          cat >> android/gradle.properties <<EOF
-          BUXY_STORE_FILE=buxy-upload-key.jks
-          BUXY_STORE_PASSWORD=$BUXY_KEYSTORE_PASSWORD
-          BUXY_KEY_ALIAS=$BUXY_KEY_ALIAS
-          BUXY_KEY_PASSWORD=$BUXY_KEY_PASSWORD
-          EOF
-
-          python3 - <<'PY'
-          from pathlib import Path
-
-          path = Path("android/app/build.gradle")
-          text = path.read_text()
-
-          marker = "android {"
-          signing = """android {
-              signingConfigs {
-                  release {
-                      storeFile file(BUXY_STORE_FILE)
-                      storePassword BUXY_STORE_PASSWORD
-                      keyAlias BUXY_KEY_ALIAS
-                      keyPassword BUXY_KEY_PASSWORD
-                  }
-              }
-          """
-
-          if marker not in text:
-              raise SystemExit("android block not found")
-
-          text = text.replace(marker, signing, 1)
-
-          old = """buildTypes {
-                  release {
-          """
-          new = """buildTypes {
-                  release {
-                      signingConfig signingConfigs.release
-          """
-
-          if old not in text:
-              raise SystemExit("release buildType not found")
-
-          text = text.replace(old, new, 1)
-          path.write_text(text)
-          PY
+          set -euo pipefail
+          : "${BUXY_KEYSTORE_BASE64:?Missing existing keystore secret}"
+          umask 077
+          printf '%s' "$BUXY_KEYSTORE_BASE64" | base64 --decode > android/app/buxy-upload-key.jks
+          test -s android/app/buxy-upload-key.jks
 
       - name: Build signed Release AAB
+        env:
+          ORG_GRADLE_PROJECT_BUXY_STORE_PASSWORD: ${{ secrets.BUXY_KEYSTORE_PASSWORD }}
+          ORG_GRADLE_PROJECT_BUXY_KEY_ALIAS: ${{ secrets.BUXY_KEY_ALIAS }}
+          ORG_GRADLE_PROJECT_BUXY_KEY_PASSWORD: ${{ secrets.BUXY_KEY_PASSWORD }}
+        shell: bash
         run: |
+          set -euo pipefail
+          : "${ORG_GRADLE_PROJECT_BUXY_STORE_PASSWORD:?Missing store password}"
+          : "${ORG_GRADLE_PROJECT_BUXY_KEY_ALIAS:?Missing key alias}"
+          : "${ORG_GRADLE_PROJECT_BUXY_KEY_PASSWORD:?Missing key password}"
           cd android
           chmod +x gradlew
-          ./gradlew bundleRelease
+          ./gradlew --no-daemon bundleRelease
 
-      - name: Upload Release AAB
+      - name: Upload signed Release AAB only
         uses: actions/upload-artifact@v4
         with:
           name: buxy-digital-release-aab
           path: android/app/build/outputs/bundle/release/app-release.aab
+          if-no-files-found: error
+          retention-days: 30
