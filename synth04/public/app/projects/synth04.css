@@ -1,0 +1,43 @@
+/* BUXY DIGITAL · SYNTH 04 / Projects ONLY.
+   Scoped to the existing Hatchable Projects route. No changes to shared CSS,
+   accounts, API, Android or live website until the owner approves deployment. */
+body.synth04-projects-page{--s04-obsidian:#05070a;--s04-mint:#00ffd5;--s04-violet:#9b6bff;--s04-lavender:#e8d4ff;--s04-gold:#e8c47a;--s04-cyan:#00e8ff;background:#030508;color:#f0f4ff;font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+body.synth04-projects-page .aurora{background:
+  radial-gradient(ellipse 70% 40% at 85% 8%,rgba(155,107,255,.22),transparent 65%),
+  radial-gradient(ellipse 50% 40% at 5% 20%,rgba(0,255,213,.12),transparent 70%),
+  radial-gradient(ellipse 40% 30% at 60% 90%,rgba(0,232,255,.08),transparent 70%),
+  #030508;filter:none}
+body.synth04-projects-page>header{background:rgba(4,9,13,.83);border-bottom:1px solid rgba(223,188,125,.14)}
+body.synth04-projects-page>header .logo{font-size:12px;font-weight:700}
+body.synth04-projects-page .dock{border:1px solid rgba(129,149,194,.22);background:rgba(4,9,13,.96);box-shadow:0 13px 45px rgba(0,0,0,.5)}
+body.synth04-projects-page .dock .active{color:var(--s04-mint)}
+body.synth04-projects-page .dock .ai b{background:radial-gradient(circle at 35% 20%,#00e5c2,#202889 57%,#7b61ff);border:1px solid rgba(165,215,255,.72);box-shadow:0 0 22px rgba(123,97,255,.49)}
+body.synth04-projects-page .dock a:focus-visible{outline:2px solid var(--s04-mint);outline-offset:2px;border-radius:11px}
+main.synth04-projects{position:relative;z-index:1;max-width:650px;margin:auto;padding:31px 20px 18px}
+.synth04-intro{position:relative;isolation:isolate;padding:7px 0 6px;overflow:hidden}
+.synth04-intro::before{content:'◈';font-size:32px;font-weight:200;color:#00ffd5;position:absolute;right:11px;top:77px;text-shadow:0 0 40px rgba(0,255,213,.95),0 0 80px rgba(155,107,255,.4);opacity:.75;animation:s04-pulse 4s ease-in-out infinite}
+.synth04-intro::after{content:'';z-index:-1;position:absolute;right:-120px;top:-75px;width:360px;height:290px;background:linear-gradient(90deg,#030508e6,#03050840),url('/app/projects/synth04-ribbon.webp') 58% center/cover no-repeat;opacity:.72;filter:saturate(1.4) brightness(1.1);pointer-events:none;mask-image:linear-gradient(90deg,transparent 0%,#000 37%)}
+.synth04-overline{margin:0 0 15px;color:#7dffd4;letter-spacing:.28em;font-size:10px;font-weight:700;text-shadow:0 0 12px rgba(0,255,213,.35)}
+.synth04-intro h1{margin:0;line-height:.98;font-size:clamp(43px,11.4vw,63px);font-family:'Didot','Bodoni MT',Georgia,'Times New Roman',serif;letter-spacing:-.045em;font-weight:400;text-wrap:balance}
+.synth04-intro h1 em{font-style:normal;background:linear-gradient(93deg,#00ffd5 0%,#a0fff0 25%,#ffffff 55%,#c4b0ff 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 18px rgba(0,255,213,.35))}
+@keyframes s04-pulse{0%,100%{opacity:.75;transform:scale(1)}50%{opacity:1;transform:scale(1.08)}}
+.synth04-subtitle{max-width:480px;color:#c0c7d1;font-size:13px;line-height:1.67;margin:17px 0 10px}
+.synth04-filters{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;margin:16px -2px 12px;padding:2px 2px 7px;isolation:isolate}
+.synth04-filters::-webkit-scrollbar{display:none}
+.synth04-filter{flex:0 0 auto;min-height:40px;padding:9px 15px;border-radius:99px;border:1px solid rgba(0,232,255,.18);background:rgba(5,12,18,.9);color:#a8b4c4;font:inherit;font-size:11px;transition:background .25s,border-color .25s,color .25s,box-shadow .25s;cursor:pointer}
+.synth04-filter.is-selected{border-color:rgba(0,255,213,.9);color:#f0fffc;background:linear-gradient(130deg,rgba(0,255,213,.22),rgba(8,30,40,.75));box-shadow:0 0 0 2px rgba(0,255,213,.12),inset 0 0 20px rgba(0,255,213,.2),0 0 18px rgba(0,255,213,.25)}
+.synth04-filter:focus-visible,.synth04-explore:focus-visible,.synth04-architect:focus-visible{outline:2px solid var(--s04-mint);outline-offset:3px}
+.synth04-cards{display:grid;gap:13px;margin-top:5px}
+.synth04-service{position:relative;isolation:isolate;min-height:222px;padding:20px;overflow:hidden;border:1px solid rgba(0,255,213,.55);border-radius:22px;background:linear-gradient(145deg,#041414,#030a0c);box-shadow:inset 0 0 40px rgba(0,255,213,.08),0 0 30px rgba(0,255,213,.12),0 14px 40px rgba(0,0,0,.35)}
+.synth04-service.synth04-app{border-color:rgba(155,107,255,.65);background:linear-gradient(145deg,#0a0818,#060510);box-shadow:inset 0 0 40px rgba(155,107,255,.1),0 0 30px rgba(155,107,255,.15),0 14px 40px rgba(0,0,0,.35)}
+.synth04-service[hidden],.synth04-empty[hidden]{display:none!important}
+.synth04-art{position:absolute;z-index:-2;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center;pointer-events:none}
+.synth04-card-gradient{position:absolute;z-index:-1;inset:0;background:linear-gradient(90deg,#040d10fa 0%,#051217e5 35%,#03111352 62%,transparent 100%);pointer-events:none}
+.synth04-app .synth04-card-gradient{background:linear-gradient(90deg,#070916fa 0%,#0c0b1be5 37%,#14102548 67%,transparent 100%)}
+.synth04-card-body{max-width:72%;position:relative;z-index:1;min-height:180px;display:flex;flex-direction:column;align-items:flex-start}
+.synth04-card-label{color:var(--s04-mint);font-size:10px;letter-spacing:.21em;font-weight:700}
+.synth04-app .synth04-card-label{color:#bd9bff}
+.synth04-card-body h2{font-family:'Didot','Bodoni MT',Georgia,serif;font-size:clamp(25px,6.7vw,35px);font-weight:400;letter-spacing:-.03em;line-height:1.09;margin:12px 0 5px;color:#fff}
+.synth04-card-body p{font-size:11px;line-height:1.55;color:#bdc4cb;margin:0 0 14px}
+/* Full card styles, modals, architect bar: see complete package + overlay for grid/scanlines */
+@import url('../synth04-sf-overlay.css');
