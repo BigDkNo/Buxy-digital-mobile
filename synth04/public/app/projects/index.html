@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0A0F0E">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' https: data: blob:; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' https: data: blob:; font-src 'self' https: data:; connect-src 'self' https:; media-src 'self' https: blob:; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="manifest" href="/app/manifest.json">
+<link rel="icon" href="/favicon.svg">
+<title>Projects · BUXY DIGITAL</title>
+<link rel="stylesheet" href="/app/mobile.css">
+<link rel="stylesheet" href="/app/sections.css">
+<link rel="stylesheet" href="/app/projects/synth04.css">
+</head>
+<body class="synth04-projects-page">
+<div class="aurora" aria-hidden="true"></div>
+<header>
+  <a href="/app/" class="logo" aria-label="BUXY DIGITAL Home"><b>B</b><span>BUXY <strong>DIGITAL</strong></span></a>
+  <div class="synth04-header-tools"><span class="live">● PROJECTS</span><button class="synth04-notice-toggle" type="button" data-s04-dialog="notifications" aria-label="Notificări demonstrative">♧<span class="s04-demo-mini">DEMO</span></button></div>
+</header>
+<main class="synth04-projects" id="main-content">
+  <section class="synth04-intro" aria-labelledby="synth04-title">
+    <p class="synth04-overline">SYNTHETIC VISION · HUMANOID AI</p>
+    <h1 id="synth04-title">Proiecte<br><em>fără limite.</em></h1>
+    <p class="synth04-subtitle">Website-uri, aplicații și lumi digitale născute din inteligență artificială humanoidă.</p>
+  </section>
+  <div class="synth04-filters" role="group" aria-label="Filtre pentru servicii">
+    <button class="synth04-filter is-selected" type="button" data-filter="all" aria-pressed="true">Toate</button>
+    <button class="synth04-filter" type="button" data-filter="website" aria-pressed="false">Website-uri</button>
+    <button class="synth04-filter" type="button" data-filter="app" aria-pressed="false">Aplicații</button>
+    <button class="synth04-filter" type="button" data-filter="branding" aria-pressed="false">Branding</button>
+  </div>
+  <!-- NOTE: Full Projects body, cards, architect, modals and dock are in the complete package;
+       this staged HTML carries the Humanoid AI copy and structure for Hatchable integration.
+       Apply via tools/apply_synth04.py on a DEV public/ copy. -->
+  <p class="synth04-subtitle" style="opacity:.7;font-size:11px;margin-top:24px">SYNTH 04 SF Humanoid · staged for Hatchable. Full card markup + modals: use the complete package from the release ZIP or re-apply from synth04/ via apply_synth04.py.</p>
+</main>
+<nav class="dock" aria-label="Navigare în aplicația BUXY DIGITAL">
+  <a href="/app/"><b>⌂</b><span>Home</span></a>
+  <a class="active" href="/app/projects/" aria-current="page"><b>▦</b><span>Projects</span></a>
+  <a class="ai" href="/app/ai/"><b>✦</b><span>AI</span></a>
+  <a href="/app/forum/"><b>◎</b><span>Forum</span></a>
+  <a href="/app/account/"><b>♙</b><span>Account</span></a>
+</nav>
+<script src="/app/projects/synth04.js" defer></script>
+<script src="/app/app.js" defer></script>
+</body>
+</html>
