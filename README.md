@@ -8,6 +8,14 @@ The Android build workflow now uses explicit, reviewable release version setting
 
 The app still relies on the live website and therefore does **not** work offline. See [Android release and security checklist](docs/ANDROID-RELEASE-CHECKLIST.md) for limitations, planned tests, and next steps.
 
+## SYNTH 04 · SF Humanoid visual upgrade
+
+This branch stages the **sci-fi / humanoid AI** visual package (holographic grid, animated scanlines, intensified neon) for the Hatchable web app.
+
+- See [`synth04/INTEGRATION.md`](synth04/INTEGRATION.md) for how to apply CSS/HTML to Hatchable `public/`.
+- Overlay stylesheet: [`synth04/public/app/synth04-sf-overlay.css`](synth04/public/app/synth04-sf-overlay.css)
+- Once Hatchable deploys the theme, this Capacitor shell shows it automatically (no new APK required for pure CSS/HTML).
+
 ## Local checks
 
 ```sh
