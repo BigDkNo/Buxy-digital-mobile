@@ -1,0 +1,55 @@
+name: Test BUXY SYNTH Live on Android
+
+on:
+  push:
+    branches:
+      - feature/synth-live-2026-10-17
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  debug-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout migration branch
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Run existing project tests
+        run: python3 -m unittest discover -s tests -v
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Build Capacitor web shell
+        run: npm run build
+
+      - name: Generate Android project for the existing BUXY DIGITAL app ID
+        run: npx cap add android
+
+      - name: Build unsigned-for-Play Android debug APK
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew --no-daemon assembleDebug
+
+      - name: Upload Android test APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: buxy-synth-live-debug-apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+          retention-days: 30

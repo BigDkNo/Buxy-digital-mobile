@@ -3,7 +3,7 @@
   "appName": "BUXY DIGITAL",
   "webDir": "dist",
   "server": {
-    "url": "https://buxydigital.com/app/",
+    "url": "https://buxydigital.com/app/synth/",
     "cleartext": false
   }
 }
