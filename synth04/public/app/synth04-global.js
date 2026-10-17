@@ -1,0 +1,8 @@
+/* SYNTH 04 mobile: presentation-only enhancements. Core application JS remains untouched. */
+(()=>{'use strict';
+const paths={home:'<path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/>',projects:'<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',ai:'<path d="m12 2 2.6 7.4L22 12l-7.4 2.6L12 22l-2.6-7.4L2 12l7.4-2.6z" fill="currentColor" stroke="none"/>',forum:'<path d="M20 11.5c0 5-3.8 8.3-8.5 8.3a10 10 0 0 1-3.8-.8L3 21l1.7-4.8A8.5 8.5 0 1 1 20 11.5z"/>',account:'<circle cx="12" cy="7" r="4"/><path d="M4 21c0-4.8 3-7.3 8-7.3s8 2.5 8 7.3"/>'};
+const makeIcon=(name)=>'<svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round">'+paths[name]+'</svg>';
+const known=[['/app/','home'],['/app/projects/','projects'],['/app/ai/','ai'],['/app/forum/','forum'],['/app/account/','account']];
+document.querySelectorAll('nav.dock a[href]').forEach(a=>{const p=a.getAttribute('href')||'';const entry=known.find(([url])=>url===p);if(!entry)return;const b=a.querySelector('b');if(b)b.innerHTML=makeIcon(entry[1]);const active=p===location.pathname||(!location.pathname.startsWith('/app/')&&document.body.classList.contains('s04-view-'+entry[1]));a.classList.toggle('active',active);if(active)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
+// Never intercept a link, form, authenticated request, forum post or account action.
+})();
