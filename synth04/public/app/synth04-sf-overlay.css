@@ -1,0 +1,149 @@
+/* SYNTH 04 SF Humanoid — holographic grid + scanlines overlay
+ * Load after base SYNTH 04 / mobile styles on Hatchable.
+ */
+
+:root{
+  --s04-obsidian:#030508;
+  --s04-mint:#00ffd5;
+  --s04-violet:#9b6bff;
+  --s04-lavender:#e8d4ff;
+  --s04-gold:#e8c47a;
+  --s04-mist:#a0b4c8;
+  --s04-edge:rgba(0,232,255,.22);
+  --s04-cyan:#00e8ff;
+  --s04-grid-color:rgba(0,255,213,.045);
+  --s04-scan-color:rgba(0,255,213,.04);
+}
+
+body.s04-mobile-page,
+body.synth04-projects-page{
+  background:#030508;
+  color:#f0f4ff;
+}
+
+/* Full-page holographic grid */
+body.s04-mobile-page::before,
+body.synth04-projects-page::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  background-image:
+    linear-gradient(var(--s04-grid-color) 1px,transparent 1px),
+    linear-gradient(90deg,var(--s04-grid-color) 1px,transparent 1px);
+  background-size:48px 48px;
+  mask-image:radial-gradient(ellipse 85% 70% at 50% 40%,#000 20%,transparent 75%);
+  opacity:.85;
+}
+
+/* Animated scanlines */
+body.s04-mobile-page::after,
+body.synth04-projects-page::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:9998;
+  pointer-events:none;
+  background:repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 2px,
+    var(--s04-scan-color) 2px,
+    var(--s04-scan-color) 3px
+  );
+  opacity:.55;
+  mix-blend-mode:overlay;
+  animation:s04-scan-move 9s linear infinite;
+}
+@keyframes s04-scan-move{
+  0%{background-position:0 0}
+  100%{background-position:0 48px}
+}
+
+/* Card / panel dense grid */
+body.s04-mobile-page .panel,
+body.s04-mobile-page .card,
+body.s04-mobile-page .mobile-topic,
+body.s04-mobile-page #aiPanel,
+body.s04-mobile-page #aiResult,
+.synth04-service{
+  position:relative;
+  overflow:hidden;
+}
+body.s04-mobile-page .panel::after,
+body.s04-mobile-page .card::after,
+body.s04-mobile-page .mobile-topic::after,
+body.s04-mobile-page #aiPanel::after,
+body.s04-mobile-page #aiResult::after,
+.synth04-service::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  border-radius:inherit;
+  background-image:
+    linear-gradient(rgba(0,255,213,.06) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,255,213,.06) 1px,transparent 1px);
+  background-size:22px 22px;
+  opacity:.5;
+  mask-image:linear-gradient(180deg,#000 0%,transparent 85%);
+}
+.synth04-service.synth04-app::before{
+  background-image:
+    linear-gradient(rgba(155,107,255,.08) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(155,107,255,.08) 1px,transparent 1px);
+}
+
+/* AI dock scan flash */
+body.s04-mobile-page .dock .ai b{
+  position:relative;
+  overflow:hidden;
+  border:1px solid rgba(0,255,213,.9);
+  background:radial-gradient(circle at 37% 26%,#00ffd5,#00c4b0 18%,#2a3a9e 48%,#9b6bff 78%,#0a0c20);
+  box-shadow:0 0 32px rgba(155,107,255,.65),0 0 22px rgba(0,255,213,.35),0 0 8px rgba(0,232,255,.4);
+}
+body.s04-mobile-page .dock .ai b::after{
+  content:"";
+  position:absolute;
+  left:-20%;
+  top:0;
+  width:40%;
+  height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.18),transparent);
+  animation:s04-hscan 3.2s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes s04-hscan{
+  0%,100%{transform:translateX(0);opacity:0}
+  40%{opacity:1}
+  60%{transform:translateX(280%);opacity:.6}
+  80%{opacity:0}
+}
+
+/* Architect bar scan */
+.synth04-architect{position:relative;overflow:hidden}
+.synth04-architect::after{
+  content:"";
+  position:absolute;
+  left:0;top:0;
+  width:35%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(0,255,213,.12),transparent);
+  animation:s04-hscan-arch 4s ease-in-out infinite;
+  pointer-events:none;
+  z-index:1;
+}
+@keyframes s04-hscan-arch{
+  0%,100%{transform:translateX(-30%);opacity:0}
+  30%{opacity:.8}
+  70%{transform:translateX(320%);opacity:.4}
+  90%{opacity:0}
+}
+
+@media(prefers-reduced-motion:reduce){
+  body.s04-mobile-page::after,
+  body.synth04-projects-page::after,
+  body.s04-mobile-page .dock .ai b::after,
+  .synth04-architect::after{animation:none!important}
+}
