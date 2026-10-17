@@ -14,6 +14,12 @@ Stadiu: staging https://buxydigital.com/app/synth/ și draft PR #3; păstrăm An
 - AI → cerere: brief-ul este precompletat în formular; test end-to-end cu cont autentic real încă necesar.
 - APK debug pe ramura feature/synth-live-2026-10-17 construit în GitHub Actions cu identitatea Android existentă, fără semnătură Play.
 
+## Dovezi suplimentare din testarea pe telefon — 17 octombrie 2026
+- Utilizator autentificat a confirmat vizual că o cerere BUXY SYNTH Website a fost înregistrată; ecranul a afișat „Cerere trimisă!”, iar numărul cererilor din Account a crescut de la 2 la 3.
+- Confirmare vizuală: noua cerere apare în lista Account cu status nou. Nu s-au stocat aici date personale, e-mailuri sau identificatori ai clienților.
+- Remediere SYNTH Live v11: statusul new nu mai este numărat drept „în analiză”; contorul indică cererile noi / în așteptare, iar etichetele din listă sunt afișate în română.
+- Încă de verificat: dacă butonul „Vezi contul” navighează corect după trimiterea cererii și fluxul real complet AI → formular → cerere.
+
 ## Teste manuale necesare înainte de promovarea la versiunea unică
 1. Cont: login, logout, recuperare parolă, revenire după login și expirarea sesiunii.
 2. AI: generare brief cu cont real, schimbare idee/categorie, rezultat vechi ascuns, erori și fallback.
